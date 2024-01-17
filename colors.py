@@ -5,9 +5,9 @@ from map_settings import *
 scheme_index = 0
 hue = (0.8, 0.87, 1)
 #shades = [0.4, 0.5, 0.6, 0.7, 0.8, 1]
-schemes = [(0.7, 0.8, 1, 0.75), (0.7, 1, 0.8, 0.75), (0.6, 1, 0.8, 0.75), 
+schemes = [(0.7, 0.8, 1, 0.75), (0.7, 1, 0.8, 0.75), (0.6, 1, 0.8, 0.75),                                        # pv    25,29,33
 		  (0.4, 0.8, 1, 0.75), (0.6, 0.8, 1, 0.75)]
-kitkat_colors = {"background":(23,26,30), "square":(23,26,30), "cell":(32,37,41), "cell_background":(18,21,24), "pv":(25,29,33), "text":(255,255,255)}
+kitkat_colors = {"background":(6,7,8), "square":(6,7,8), "cell":(32,37,41), "cell_background":(14,16,18), "pv":(23,26.5,29.5), "text":(255,255,255), "cell_accent":(64,69,73), "pv_accent":(43.5,47.5,50.5)}
 def get_hue():
 	return (round(hue[0], 2), round(hue[1], 2), round(hue[2], 2))
 def get_scheme():
@@ -28,7 +28,7 @@ def _dye(shade):
 			shade*hue[1]*255,
 			shade*hue[2]*255)
 def get():
-	if kitkat_theme:
+	if get_theme() == "kitkat":
 		return kitkat_colors
 	scheme = schemes[scheme_index] # shade scheme
 	b = _dye(scheme[0])

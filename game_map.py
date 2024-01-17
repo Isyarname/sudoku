@@ -36,9 +36,28 @@ def caption():
 	if inappropriate_value_mistake:
 		return "mistake: inappropriate value set!"
 	else:
-		return str("Scheme:"+str(colors.get_scheme())+
+		if get_theme() == "kitkat":
+			return "kitkat theme"
+		else:
+			return str("Scheme:"+str(colors.get_scheme())+
 				". Hue:"+str(colors.get_hue())+
 				". Press S or H to change")
+
+def update_forms():
+	global squares
+	new_squares = _create_squares()
+	for i, square_row in enumerate(new_squares):
+		for j, square in enumerate(square_row):
+			squares[i][j].form = square.form
+			for k, row in enumerate(square.cells):
+				for l, cell in enumerate(row):
+					squares[i][j].cells[k][l].value = cell.value
+					squares[i][j].cells[k][l].digit_point = cell.digit_point
+					for ii, pv in enumerate(squares[i][j].cells[k][l].possible_values):
+						pv.form = cell.possible_values[ii].form
+
+def get_squares():
+	return squares
 
 squares = _create_squares()
 selected_button = False # Cell() | Poss_val()

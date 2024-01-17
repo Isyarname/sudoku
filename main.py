@@ -1,6 +1,6 @@
 import pygame
 import sys
-from map_settings import *
+from map_settings import Width, change_theme
 import colors
 import game_map as gm
 import render
@@ -10,15 +10,13 @@ clock = pygame.time.Clock()
 pygame.init()
 
 surface = pygame.display.set_mode((Width, Width))
-c_font = pygame.font.SysFont(font_name, c_font_size) # cell
-pv_font = pygame.font.SysFont(font_name, pv_font_size) # possible values
 
 def quit():
 	pygame.quit()
 	sys.exit()
 
 def draw():
-	render.draw(surface, c_font, pv_font)
+	render.draw(surface)
 	pygame.display.set_caption(gm.caption())
 	pygame.display.update()
 	pygame.display.flip()
@@ -45,4 +43,7 @@ while True:
 				draw()
 			elif event.key == pygame.K_h:
 				colors.set_random_hue()
+				draw()
+			elif event.key == pygame.K_t:
+				change_theme()
 				draw()
