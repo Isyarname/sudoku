@@ -1,11 +1,11 @@
 def change_theme():
 	global kitkat_theme
 	kitkat_theme = not kitkat_theme
-	_set_theme()
+	_set()
 
-def _set_theme():
+def _set():
 	global font_name, indentations_from_edge_of_square, s_gap, c_gap, pv_gap
-	global s_width, c_width, pv_width, std, ctd, pvtd, c_font_size, pv_font_size
+	global s_width, c_width, pv_width, std, ctd, pvtd, cell_font_size, pv_font_size
 	if kitkat_theme:
 		font_name = "roboto"
 		indentations_from_edge_of_square = 0
@@ -31,28 +31,20 @@ def _set_theme():
 	pvtd = pv_width + pv_gap # possible value translation distance
 
 	if font_name == "roboto":
-		c_font_size = int(c_width)
-		pv_font_size = c_font_size // 3
+		cell_font_size = int(c_width)
+		pv_font_size = cell_font_size // 3
 	elif font_name == "arial":
-		c_font_size = int(c_width / 1.1)
-		pv_font_size = int(c_font_size / 3.1)
+		cell_font_size = int(c_width / 1.1)
+		pv_font_size = int(cell_font_size / 3.1)
 
-def get_theme():
+def get():
 	if kitkat_theme:
-		return "kitkat"
+		theme = "kitkat"
 	else:
-		return "default"
-
-def get_fonts():
-	return {"font_name":font_name, "c_font_size":c_font_size, "pv_font_size":pv_font_size}
-
-def get_indentations():
-	return indentations_from_edge_of_square
-
-def get_dict():
+		theme = "default"
 	return {
 		"Width":Width,
-		"kitkat_theme":kitkat_theme,
+		"theme":theme,
 		"font_name":font_name,
 		"indentations_from_edge_of_square":indentations_from_edge_of_square,
 		"s_gap":s_gap,
@@ -64,10 +56,10 @@ def get_dict():
 		"std":std,
 		"ctd":ctd,
 		"pvtd":pvtd,
-		"c_font_size":c_font_size,
+		"cell_font_size":cell_font_size,
 		"pv_font_size":pv_font_size
 		}
 
-Width = 750
-kitkat_theme = 0
-_set_theme()
+Width = 780
+kitkat_theme = True
+_set()

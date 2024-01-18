@@ -1,6 +1,6 @@
 import pygame
 import sys
-from map_settings import Width, change_theme
+import map_settings
 import colors
 import game_map as gm
 import render
@@ -8,7 +8,7 @@ import sudoku_logic
 from classes import *
 clock = pygame.time.Clock()
 pygame.init()
-
+Width = map_settings.Width
 surface = pygame.display.set_mode((Width, Width))
 
 def quit():
@@ -45,5 +45,5 @@ while True:
 				colors.set_random_hue()
 				draw()
 			elif event.key == pygame.K_t:
-				change_theme()
+				map_settings.change_theme()
 				draw()

@@ -22,12 +22,9 @@ def check_pv():
 		if len(coords_lst) == 0:
 			break
 		else:
-			#print("check_pv")
-			#print(coords_lst)
 			for co in coords_lst:
 				s_co, c_co = co
 				set_last_pv(s_co, c_co)
-
 
 def check_pv_in_square(square):
 	lst = [] # cells with one possible value

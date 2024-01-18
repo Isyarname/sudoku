@@ -1,13 +1,13 @@
 import random as r
-from map_settings import *
-#schemes = [(4,2,3), (4,3,2), (1,3,2), (0,2,3), (1,2,3)]
-# (0.7, 0.8, 1), (0.7, 1, 0.8), (0.6, 1, 0.8), (0.4, 0.8, 1), (0.6, 0.8, 1)
+import map_settings
+
 scheme_index = 0
 hue = (0.8, 0.87, 1)
-#shades = [0.4, 0.5, 0.6, 0.7, 0.8, 1]
 schemes = [(0.7, 0.8, 1, 0.75), (0.7, 1, 0.8, 0.75), (0.6, 1, 0.8, 0.75),                                        # pv    25,29,33
 		  (0.4, 0.8, 1, 0.75), (0.6, 0.8, 1, 0.75)]
 kitkat_colors = {"background":(6,7,8), "square":(6,7,8), "cell":(32,37,41), "cell_background":(14,16,18), "pv":(23,26.5,29.5), "text":(255,255,255), "cell_accent":(64,69,73), "pv_accent":(43.5,47.5,50.5)}
+
+
 def get_hue():
 	return (round(hue[0], 2), round(hue[1], 2), round(hue[2], 2))
 def get_scheme():
@@ -28,16 +28,19 @@ def _dye(shade):
 			shade*hue[1]*255,
 			shade*hue[2]*255)
 def get():
-	if get_theme() == "kitkat":
+	settings = map_settings.get()
+	if settings["theme"] == "kitkat":
 		return kitkat_colors
 	scheme = schemes[scheme_index] # shade scheme
-	b = _dye(scheme[0])
-	if indentations_from_edge_of_square:
-		s = _dye(scheme[1])
+	background = _dye(scheme[0])
+	if settings["indentations_from_edge_of_square"]:
+		square = _dye(scheme[1])
 	else:
-		s = b
-	c = _dye(scheme[2])
-	cb = _dye(scheme[3])
-	pv = _darken(c)
-	t = (0,0,0)
-	return {"background":b, "square":s, "cell":c, "cell_background":cb, "pv":pv, "text":t}
+		square = background
+	cell = _dye(scheme[2])
+	cell_background = _dye(scheme[3])
+	pv = _darken(cell)
+	text = (0,0,0)
+	return {"background":background, "square":square, "cell":cell, 
+	"cell_background":cell_background, "pv":pv, "text":text,
+	"cell_accent":False, "pv_accent":False}

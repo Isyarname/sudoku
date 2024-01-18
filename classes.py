@@ -1,45 +1,17 @@
 import map_settings
 
-__all__ = ["Poss_val", "Cell", "Square"]
-
-def _create_form(x, y, width):
-	return ((x, y), (x+width, y), (x+width, y+width), (x, y+width))
-def _create_digit_point(x, y, width, font_name):
-	if font_name == "roboto":
-		return (x+width*0.33, y+width*0.22)
-	elif font_name == "arial":
-		return (x+width*0.3, y)
-def _create_cells(x, y, ctd, c_width, font_name, pvtd, pv_width):
-	cells = []
-	for i in range(3):
-		cells.append([])
-		for j in range(3):
-			x1, y1 = x+ctd*j, y+ctd*i
-			cells[i].append(Cell(x1, y1, c_width, font_name, pvtd, pv_width))
-	return cells
-def _create_possible_values(x, y, pvtd, font_name, pv_width):
-	pv = []
-	for i in range(9):
-		c1 = i % 3
-		c2 = i // 3
-		x1, y1 = x + pvtd*c1, y + pvtd*c2
-		pv.append(Poss_val(x1, y1, i+1, font_name, pv_width))
-	return pv
-
-
 class Poss_val:
-	def __init__(self, x, y, value, font_name, pv_width):
+	def __init__(self, form, digit_point, value):
 		self.value = value
-		self.form = _create_form(x,y,pv_width)
-		self.digit_point = _create_digit_point(x, y, pv_width, font_name)
-
+		self.form = form
+		self.digit_point = digit_point
 
 class Cell:
-	def __init__(self, x, y, c_width, font_name, pvtd, pv_width):
-		self.value = 0
-		self.possible_values = _create_possible_values(x,y, pvtd, font_name, pv_width)
-		self.form = _create_form(x,y,c_width)
-		self.digit_point = _create_digit_point(x, y, c_width, font_name)
+	def __init__(self, form, digit_point, possible_values, value=0):
+		self.form = form
+		self.digit_point = digit_point
+		self.possible_values = possible_values
+		self.value = value
 	def remove_value(self, val):
 		if self.value == 0:
 			for pv in self.possible_values:
@@ -55,25 +27,10 @@ class Cell:
 		else:
 			return {"button":False, "coords":False}
 
-
 class Square:
-	def __init__(self, i, j):
-		d = map_settings.get_dict()
-		s_gap = d["s_gap"]
-		std = d["std"]
-		s_width = d["s_width"]
-		c_gap = d["c_gap"]
-		c_width = d["c_width"]
-		font_name = d["font_name"]
-		pv_width = d["pv_width"]
-		pvtd = d["pvtd"]
-		x = s_gap + std*j
-		y = s_gap + std*i
-		self.form = _create_form(x,y,s_width)
-		if d["indentations_from_edge_of_square"]:
-			self.cells = _create_cells(x+c_gap, y+c_gap, d["ctd"], c_width, font_name, pvtd, pv_width)
-		else:
-			self.cells = _create_cells(x, y, d["ctd"], c_width, font_name, pvtd, pv_width)
+	def __init__(self, form, cells):
+		self.form = form
+		self.cells = cells
 	def find_cell(self, pos):
 		for i, row in enumerate(self.cells):
 			for j, cell in enumerate(row):
