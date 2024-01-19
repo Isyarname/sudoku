@@ -3,9 +3,11 @@ import map_settings
 
 scheme_index = 0
 hue = (0.8, 0.87, 1)
-schemes = [(0.7, 0.8, 1, 0.75), (0.7, 1, 0.8, 0.75), (0.6, 1, 0.8, 0.75),                                        # pv    25,29,33
+schemes = [(0.7, 0.8, 1, 0.75), (0.7, 1, 0.8, 0.75), (0.6, 1, 0.8, 0.75),                                        # pvb    25,29,33
 		  (0.4, 0.8, 1, 0.75), (0.6, 0.8, 1, 0.75)]
-kitkat_colors = {"background":(6,7,8), "square":(6,7,8), "cell":(32,37,41), "cell_background":(14,16,18), "pv":(23,26.5,29.5), "text":(255,255,255), "cell_accent":(64,69,73), "pv_accent":(43.5,47.5,50.5)}
+kitkat_colors = {"background":(6,7,8), "box":(6,7,8), "cell":(32,37,41), "cell_background":(14,16,18), 
+"pvb":(23,26.5,29.5), "text":(255,255,255), "cell_accent":(64,69,73), "pvb_accent":(43.5,47.5,50.5),
+"pressed_button":(25,79,99), "pressed_accent":(9,125,164)}
 
 
 def get_hue():
@@ -33,14 +35,15 @@ def get():
 		return kitkat_colors
 	scheme = schemes[scheme_index] # shade scheme
 	background = _dye(scheme[0])
-	if settings["indentations_from_edge_of_square"]:
-		square = _dye(scheme[1])
+	if settings["indentations_from_edge_of_box"]:
+		box = _dye(scheme[1])
 	else:
-		square = background
+		box = background
 	cell = _dye(scheme[2])
 	cell_background = _dye(scheme[3])
-	pv = _darken(cell)
+	pvb = _darken(cell)
 	text = (0,0,0)
-	return {"background":background, "square":square, "cell":cell, 
-	"cell_background":cell_background, "pv":pv, "text":text,
-	"cell_accent":False, "pv_accent":False}
+	return {"background":background, "box":box, "cell":cell, 
+	"cell_background":cell_background, "pvb":pvb, "text":text,
+	"cell_accent":False, "pvb_accent":False,
+	"pressed_button":False, "pressed_accent":False}

@@ -2,58 +2,58 @@ from map_settings import *
 import game_map as gm
 
 def set_by_click(coords):
-	s_co = coords[0]
-	c_co = coords[1][0]
-	pv_co = coords[1][1]
-	cell = gm.squares[s_co[0]][s_co[1]].cells[c_co[0]][c_co[1]]
-	pv = cell.possible_values[pv_co]
-	cell.value = pv.value
-	remove_from_neighboring(s_co, c_co, cell.value)
+	box_coords = coords[0]
+	cell_coords = coords[1][0]
+	pvb_co = coords[1][1]
+	cell = gm.boxes[box_coords[0]][box_coords[1]].cells[cell_coords[0]][cell_coords[1]]
+	pvb = cell.possible_value_buttons[pvb_co]
+	cell.value = pvb.value
+	remove_from_neighboring(box_coords, cell_coords, cell.value)
 
-def check_pv():
+def check_pvs():
 	while True:
 		coords_lst = [] # cells with one possible value
-		for i, square_row in enumerate(gm.squares):
-			for j, square in enumerate(square_row):
-				s_co = (i,j)
-				c_coords = check_pv_in_square(square) # square.check_pv()
-				for c_co in c_coords:
-					coords_lst.append([s_co, c_co])
+		for i, box_row in enumerate(gm.boxes):
+			for j, box in enumerate(box_row):
+				box_coords = (i,j)
+				cell_coords = check_pvs_in_box(box)
+				for cell_coords in cell_coords:
+					coords_lst.append([box_coords, cell_coords])
 		if len(coords_lst) == 0:
 			break
 		else:
 			for co in coords_lst:
-				s_co, c_co = co
-				set_last_pv(s_co, c_co)
+				box_coords, cell_coords = co
+				set_last_pv(box_coords, cell_coords)
 
-def check_pv_in_square(square):
+def check_pvs_in_box(box):
 	lst = [] # cells with one possible value
-	for i, row in enumerate(square.cells):
+	for i, row in enumerate(box.cells):
 		for j, cell in enumerate(row):
 			if (cell.value == 0 and 
-				len(cell.possible_values) == 1):
+				len(cell.possible_value_buttons) == 1):
 				lst.append((i,j))
 	return lst
 
-def set_last_pv(s_co, c_co):
-	cell = gm.squares[s_co[0]][s_co[1]].cells[c_co[0]][c_co[1]]
-	if len(cell.possible_values) > 0:
-		cell.value = cell.possible_values[0].value
-		remove_from_neighboring(s_co, c_co, cell.value)
+def set_last_pv(box_coords, cell_coords):
+	cell = gm.boxes[box_coords[0]][box_coords[1]].cells[cell_coords[0]][cell_coords[1]]
+	if len(cell.possible_value_buttons) > 0:
+		cell.value = cell.possible_value_buttons[0].value
+		remove_from_neighboring(box_coords, cell_coords, cell.value)
 	else:
 		gm.inappropriate_value_mistake = True
 
-def remove_from_neighboring(s_co, c_co, val):
-	remove_in_lines(s_co, c_co, val)
-	remove_in_square(s_co, val)
+def remove_from_neighboring(box_coords, cell_coords, val):
+	remove_in_lines(box_coords, cell_coords, val)
+	remove_in_box(box_coords, val)
 
-def remove_in_lines(s_co, c_co, val):
+def remove_in_lines(box_coords, cell_coords, val):
 	for i in range(3):
-		gm.squares[s_co[0]][i].remove_in_row(c_co, val)
-		gm.squares[i][s_co[1]].remove_in_column(c_co, val)
+		gm.boxes[box_coords[0]][i].remove_in_row(cell_coords, val)
+		gm.boxes[i][box_coords[1]].remove_in_column(cell_coords, val)
 
-def remove_in_square(s_co, val):
-	sq = gm.squares[s_co[0]][s_co[1]]
+def remove_in_box(box_coords, val):
+	sq = gm.boxes[box_coords[0]][box_coords[1]]
 	for row in sq.cells:
 		for cell in row:
 			cell.remove_value(val)
