@@ -20,10 +20,12 @@ class Cell:
 					self.possible_value_buttons.remove(pvb)
 					break
 	def get_values(self):
+		if not self.value:
+			return []
 		values = []
 		for pvb in self.possible_value_buttons:
 			values.append(pvb.value)
-		return values.sorted()
+		return sorted(values)
 	def find_pvb(self, pos):
 		for i, pvb in enumerate(self.possible_value_buttons):
 			pvbf = pvb.form
@@ -45,16 +47,8 @@ class Box:
 					cf[0][1] <= pos[1] <= cf[2][1]):
 					if cell.value == 0:
 						ans = cell.find_pvb(pos)
-						return {"button":ans["button"], "coords":[[i,j],ans["coords"]]}
+						return {"button":ans["button"], "coords":[[i,j], ans["coords"]]}
 					else:
 						return {"button":cell, "coords":[i,j]}
 		else:
 			return {"button":False, "coords":[]}
-	def remove_in_row(self, c_coords, val):
-		x, y = c_coords
-		for i in range(3):
-			self.cells[x][i].remove_value(val)
-	def remove_in_column(self, c_coords, val):
-		x, y = c_coords
-		for i in range(3):
-			self.cells[i][y].remove_value(val)

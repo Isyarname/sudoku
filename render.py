@@ -1,6 +1,6 @@
 import pygame
 import map_settings
-import game_map
+import map_logic
 import colors
 
 def _draw_text(surf, font, color, digit_point, value):
@@ -49,6 +49,6 @@ def draw(surf):
 	cell_font = pygame.font.SysFont(ms["font_name"], ms["cell_font_size"]) # cell
 	pvb_font = pygame.font.SysFont(ms["font_name"], ms["pvb_font_size"]) # possible values
 	surf.fill(clrs["background"])
-	for row in game_map.get_boxes():
+	for row in map_logic.get_boxes():
 		for box in row:
 			_draw_box(surf, box, cell_font, pvb_font, clrs)
