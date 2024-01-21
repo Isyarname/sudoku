@@ -2,7 +2,7 @@ from map_settings import *
 import map_logic as ml
 import remove_from_blocks
 #import last_place_in_block
-import threesomes
+#import threesomes
 
 def set_by_click(coords):
 	box_coords = coords[0]
